@@ -1,0 +1,46 @@
+services:
+  grafana-tunnel:
+    image: bitnami/kubectl:latest
+    container_name: oppen-tunnel
+    user: root
+    volumes:
+      - ${USERPROFILE}/.kube:/root/.kube:ro
+    ports:
+      - "3000:3000"
+    networks:
+      - kind
+    entrypoint: 
+      - /bin/sh
+      - -c
+      - |
+        cp /root/.kube/config /tmp/kubeconfig
+        sed -i 's/127.0.0.1.*/oppen-local-control-plane:6443/g' /tmp/kubeconfig
+        sed -i 's/certificate-authority-data:.*/insecure-skip-tls-verify: true/g' /tmp/kubeconfig
+        export KUBECONFIG=/tmp/kubeconfig
+        
+        echo "Waiting for pods..."
+        while true; do
+            kubectl port-forward svc/prometheus-grafana 3000:80 -n monitoring --address 0.0.0.0
+            echo "Port forward crashed or stopped. Retrying in 5s..."
+            sleep 5
+        done
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.agent
+    image: oppen-agent
+    container_name: oppen-agent
+    volumes:
+      - .:/app
+    environment:
+      - DOCKER_HOST=tcp://host.docker.internal:2375
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Keep it running so we can exec into it
+    command: ["sleep", "infinity"]
+
+networks:
+  kind:
+    external: true

@@ -1,0 +1,42 @@
+FROM python:3.12-slim-bookworm
+
+# Install system dependencies (Terraform, Docker CLI, curl)
+RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
+    software-properties-common \
+    unzip \
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Terraform (Direct Binary)
+ENV TERRAFORM_VERSION=1.11.0
+RUN curl -fsSL https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip -o terraform.zip && \
+    unzip terraform.zip && \
+    mv terraform /usr/local/bin/ && \
+    rm terraform.zip
+
+# Install Docker CLI (client only)
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+    sh get-docker.sh && \
+    rm get-docker.sh
+
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+WORKDIR /app
+
+# Copy dependency definition (pyproject.toml if exits, or just install packages)
+# We assume requirements are handled via uv sync or we just install globally for the agent container
+# For now, we'll just pip install strictly what we need to save time on complexity
+# Install python dependencies via uv
+RUN uv pip install --system langchain langchain-ollama langgraph mcp[cli] docker-mcp
+
+# Copy the rest of the app
+COPY . .
+
+# Set env vars
+ENV PYTHONUNBUFFERED=1
+ENV DOCKER_HOST=unix:///var/run/docker.sock
+
+CMD ["uv", "run", "scripts/phase2_agent.py"]

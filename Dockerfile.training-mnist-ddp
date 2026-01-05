@@ -1,0 +1,18 @@
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+WORKDIR /training
+
+# Install dependencies
+RUN pip install --no-cache-dir \
+    mlflow \
+    psycopg2-binary \
+    torchvision
+
+# Copy training script
+COPY scripts/training/train_mnist_ddp.py .
+
+# Create data directory
+RUN mkdir -p /training/data
+
+# Set entrypoint
+ENTRYPOINT ["python", "train_mnist_ddp.py"]

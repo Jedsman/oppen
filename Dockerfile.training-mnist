@@ -1,0 +1,10 @@
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+WORKDIR /training
+
+RUN pip install --no-cache-dir mlflow psycopg2-binary torchvision
+
+COPY scripts/training/train_mnist.py .
+RUN mkdir -p /training/data
+
+ENTRYPOINT ["python", "train_mnist.py"]

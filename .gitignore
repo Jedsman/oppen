@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDES
+.vscode/
+.idea/
+.claude/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+*.tfvars.json
+.terraform.lock.hcl
+# Keep .terraform.lock.hcl if you want to lock provider versions for the team, 
+# but ignoring it here as this seems to be a personal/local repo setup initially. 
+# Re-enable if needed.
+
+# Project Specific
+chroma_db/
+automl_studies.db
+logs/
+*.log
+data/
+# Keep gitkeep if empty folders needed
+!data/.gitkeep
+
+# MLflow
+mlruns/
+.trash/
+
+# Jupyter
+.ipynb_checkpoints
+
+# OS
+.DS_Store
+Thumbs.db

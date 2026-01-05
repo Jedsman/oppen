@@ -1,0 +1,9 @@
+FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+
+WORKDIR /training
+
+RUN pip install --no-cache-dir mlflow psycopg2-binary transformers datasets accelerate
+
+COPY scripts/training/train_llm.py .
+
+ENTRYPOINT ["python", "train_llm.py"]
