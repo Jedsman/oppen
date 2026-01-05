@@ -411,7 +411,7 @@ Complete all of these checks:
 **Problem**: `kubectl get pods` shows STATUS=Pending after 1 minute.
 
 **Solution:**
-1. Check events: `kubectl describe pod <pod-name>`
+1. Check events: `kubectl describe pod [POD_NAME]`
 2. Check nodes: `kubectl get nodes`
 3. If no ready nodes, cluster is broken - delete and recreate:
    ```bash
@@ -550,29 +550,29 @@ Your first deployment is complete! In Lab 1.4, you'll:
 
 ```bash
 # Deployments
-kubectl create deployment <name> --image=<image>
+kubectl create deployment [NAME] --image=[IMAGE]
 kubectl get deployments
-kubectl describe deployment <name>
-kubectl delete deployment <name>
-kubectl scale deployment <name> --replicas=N
-kubectl set image deployment/<name> <container>=<image>
+kubectl describe deployment [NAME]
+kubectl delete deployment [NAME]
+kubectl scale deployment [NAME] --replicas=N
+kubectl set image deployment/[NAME] {container}=[IMAGE]
 
 # Pods
 kubectl get pods
-kubectl logs deployment/<name>
-kubectl exec -it <pod-name> -- /bin/sh
-kubectl describe pod <pod-name>
+kubectl logs deployment/[NAME]
+kubectl exec -it [POD_NAME] -- /bin/sh
+kubectl describe pod [POD_NAME]
 
 # Services
-kubectl expose deployment <name> --port=80 --type=NodePort
+kubectl expose deployment [NAME] --port=80 --type=NodePort
 kubectl get services
-kubectl port-forward svc/<name> <local-port>:<svc-port>
-kubectl delete svc <name>
+kubectl port-forward svc/[NAME] {local-port}:{svc-port}
+kubectl delete svc [NAME]
 
 # Debugging
 kubectl events
 kubectl get all
-kubectl describe <resource-type> <name>
+kubectl describe {resource-type} [NAME]
 ```
 
 ---

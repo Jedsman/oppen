@@ -438,7 +438,7 @@ You're just getting started! 🚀
 - [ ] 8-9/10 - Strong! Minor review recommended
 - [ ] 6-7/10 - Good! Review theory sections
 - [ ] 4-5/10 - Fair - Re-read key sections before Phase 2
-- [ ] <4/10 - Review Phase 1 content thoroughly
+- [ ] Less than 4/10 - Review Phase 1 content thoroughly
 
 ## What to Review If Stuck
 

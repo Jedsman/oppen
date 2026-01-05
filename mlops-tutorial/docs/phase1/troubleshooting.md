@@ -301,7 +301,7 @@ kind create cluster --name oppen-lab --wait 10m
 
 **Causes:**
 - Kind cluster needs ~2GB RAM
-- You have <4GB available
+- You have less than 4GB available
 
 **Solutions:**
 ```bash
@@ -423,7 +423,7 @@ kubectl describe pod <pod-name>
 kubectl logs <pod-name>
 ```
 
-### "service <name> not found"
+### "service [NAME] not found"
 
 **Problem**: `kubectl expose deployment` or `kubectl get svc` can't find service
 
@@ -468,7 +468,7 @@ kubectl create deployment nginx --image=nginx:alpine
 **Solutions:**
 ```bash
 # Syntax is:
-kubectl scale deployment <name> --replicas=<number>
+kubectl scale deployment [NAME] --replicas=[NUMBER]
 
 # Not:
 kubectl scale pod ...  # Wrong
@@ -580,7 +580,7 @@ python3 agent.py
 **Solutions:**
 ```bash
 # First response takes ~30 seconds while model loads
-# Subsequent responses should be <5 seconds
+# Subsequent responses should be less than 5 seconds
 
 # If still slow:
 # 1. Check Ollama status
@@ -687,10 +687,10 @@ kind create cluster --name oppen-lab
 kubectl get all
 
 # Show what a resource looks like
-kubectl get pod <name> -o yaml
+kubectl get pod [NAME] -o yaml
 
 # Edit a resource live
-kubectl edit deployment <name>
+kubectl edit deployment [NAME]
 
 # Execute command in pod
 kubectl exec -it <pod-name> -- /bin/sh
@@ -699,10 +699,10 @@ kubectl exec -it <pod-name> -- /bin/sh
 kubectl cp <pod-name>:/path/to/file ./local/file
 
 # Port forward (bypass service)
-kubectl port-forward pod/<name> 8080:8000
+kubectl port-forward pod/[NAME] 8080:8000
 
 # Follow logs in real-time
-kubectl logs -f deployment/<name>
+kubectl logs -f deployment/[NAME]
 
 # Watch resource changes
 kubectl get pods -w
@@ -781,8 +781,8 @@ When reporting issues:
 1. **Include error output:**
    ```bash
    # Save complete output
-   kubectl describe pod <name> > error.txt
-   kubectl logs <name> >> error.txt
+   kubectl describe pod [NAME] > error.txt
+   kubectl logs [NAME] >> error.txt
    ```
 
 2. **Include command that failed:**
@@ -817,7 +817,7 @@ kubectl expose deployment nginx --port=80 --type=NodePort
 ```
 
 **Stuck on a specific lab:**
-1. Delete just the problematic resource: `kubectl delete deployment/pod/service <name>`
+1. Delete just the problematic resource: `kubectl delete deployment/pod/service [NAME]`
 2. Reread the lab instructions carefully
 3. Follow each step exactly
 4. Check validation checkpoints
